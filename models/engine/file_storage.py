@@ -73,7 +73,7 @@ class FileStorage:
         """Retrive object with given class name and id"""
         obj_list = self.all(cls)
         for key in obj_list.keys():
-            if id == str(obj_list[key].id):
+            if key.find(id) != -1:
                 return obj_list[key]
             else:
                 return None
