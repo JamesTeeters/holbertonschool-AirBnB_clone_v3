@@ -14,8 +14,8 @@ from models.state import State
 def api_states():
     """return list of all states"""
     all_states = []
-    for state in storage.all(State)
-    all_states.append(state)
+    for state in storage.all("State").values():
+        all_states.append(state)
     return all_states
 
 
@@ -23,9 +23,9 @@ def api_states():
                  strict_slashes=False)
 def api_state(state_id):
     """return state with given id"""
-    for state in storage.all(State)
-        if state.id == state_id
-        return state
+    for state in storage.all("State").values():
+        if state.id == state_id:
+            return state
     else:
         abort(404)
 
@@ -33,11 +33,11 @@ def api_state(state_id):
 @app_views.route('/api/v1/states/<state_id>', methods=['DELETE'],
                  strict_slashes=False)
 def api_delete_state(state_id):
-    for state in storage.all(State)
-        if state.id == state_id
-        storage.delete(state)
-        storage.save()
-        return make_response(jsonify({}), 200)
+    for state in storage.all('State').values():
+        if state.id == state_id:
+            storage.delete(state)
+            storage.save()
+            return make_response(jsonify({}), 200)
     else:
         abort(404)
 
