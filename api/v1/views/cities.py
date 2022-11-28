@@ -13,17 +13,19 @@ from sqlalchemy.exc import IntegrityError
 def city_list(state_id):
     """ lists all City objects """
     states_dict = storage.all(State)
-    cities_list = None
     return_list = []
 
-    for state in states_dict.values():
+    '''for state in states_dict.values():
         if state.id == state_id:
             cities_list = state.cities
         if cities_list is None:
-            abort(404)
-        for city in cities_list:
-            return_list.append(city.to_dict())
-        return jsonify(return_list)
+            abort(404)'''
+    cities_list = storage.get(State, state_id)
+    if cities_list is None:
+        abort(404)
+    for city in cities_list.cities:
+        return_list.append(city.to_dict())
+    return jsonify(return_list)
 
 
 @app_views.route('/cities/<city_id>', methods=['GET'], strict_slashes=False)
