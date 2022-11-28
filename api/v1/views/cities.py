@@ -15,11 +15,11 @@ def city_list(state_id):
     states_dict = storage.all(State)
     return_list = []
 
-    '''for state in states_dict.values():
-        if state.id == state_id:
-            cities_list = state.cities
-        if cities_list is None:
-            abort(404)'''
+    #for state in states_dict.values():
+        #if state.id == state_id:
+            #cities_list = state.cities
+        #if cities_list is None:
+            #abort(404)
     cities_list = storage.get(State, state_id)
     if cities_list is None:
         abort(404)
