@@ -2,14 +2,14 @@
 """ view for City objects """
 from api.v1.views import app_views
 from models import storage
-from models.cities import City
+from models.city import City
 from models.state import State
 from flask import jsonify, abort, request, make_response
 from sqlalchemy.exc import IntegrityError
 
 
 @app_views.route('/states/<state.id>/cities', methods=['GET'],
-                 strictslashes=False)
+                 strict_slashes=False)
 def city_list(state_id):
     """ lists all City objects """
     states_dict = storage.all(State)
@@ -26,7 +26,7 @@ def city_list(state_id):
         return jsonify(return_list)
 
 
-@app_views.route('/cities/<city.id>', methods=['GET'], strictslashes=False)
+@app_views.route('/cities/<city.id>', methods=['GET'], strict_slashes=False)
 def grab_city(city_id):
     """ Grabs a city object """
     city = storage.get(City, city_id)
@@ -35,7 +35,7 @@ def grab_city(city_id):
     abort(404)
 
 
-@app_views.route('/cities/<city.id>', methods=['DELETE'], strictslashes=False)
+@app_views.route('/cities/<city.id>', methods=['DELETE'], strict_slashes=False)
 def delete_city(city_id):
     """ Delete a city """
     city = storage.get(City, city_id)
@@ -46,7 +46,7 @@ def delete_city(city_id):
     abort(404)
 
 
-@app_views.route('/states/<state.id>', methods=['POST'], strictslashes=False)
+@app_views.route('/states/<state.id>', methods=['POST'], strict_slashes=False)
 def new_city(state_id):
     """ Create a new city """
     try:
@@ -63,7 +63,7 @@ def new_city(state_id):
         abort(404)
 
 
-@app_views.route('/cities/<city.id>', methods=['PUT'], strictslashes=False)
+@app_views.route('/cities/<city.id>', methods=['PUT'], strict_slashes=False)
 def update_city(city_id):
     """ Update a city obj """
     req_dict = request.get_json(silent=True)

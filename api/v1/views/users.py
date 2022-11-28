@@ -2,12 +2,12 @@
 """ view for User objects """
 from api.v1.views import app_views
 from models import storage
-from models.users import User
+from models.user import User
 from flask import jsonify, abort, request, make_response
 from sqlalchemy.exc import IntegrityError
 
 
-@app_views.route('/users', methods=['GET'], strictslashes=False)
+@app_views.route('/users', methods=['GET'], strict_slashes=False)
 def users_list():
     """ lists all User objects """
     user_dict = storage.all(User)
@@ -18,7 +18,7 @@ def users_list():
 
 
 @app_views.route('/users/<user_id>', methods=['GET'],
-                 strictslashes=False)
+                 strict_slashes=False)
 def grab_user(user_id):
     """ Grabs a User object """
     user = storage.get(User, user_id)
@@ -28,7 +28,7 @@ def grab_user(user_id):
 
 
 @app_views.route('/users/<user_id>', methods=['DELETE'],
-                 strictslashes=False)
+                 strict_slashes=False)
 def delete_user(user_id):
     """ Delete a User object """
     user = storage.get(User, user_id)
@@ -39,7 +39,7 @@ def delete_user(user_id):
     abort(404)
 
 
-@app_views.route('/users', methods=['POST'], strictslashes=False)
+@app_views.route('/users', methods=['POST'], strict_slashes=False)
 def create_user():
     """ Create a User object """
     req_dict = request.get_json(silent=True)
@@ -55,7 +55,7 @@ def create_user():
 
 
 @app_views.route('/users/<user_id>', methods=['PUT'],
-                 strictslashes=False)
+                 strict_slashes=False)
 def update_user(user_id):
     """ Update a User object """
     req_dict = request.get_json(silent=True)
