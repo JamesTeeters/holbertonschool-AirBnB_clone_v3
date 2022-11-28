@@ -24,9 +24,9 @@ def api_states():
                  strict_slashes=False)
 def api_state(state_id):
     """return state with given id"""
-    for state in storage.all("State").values():
+    for state in storage.all(State).values():
         if state.id == state_id:
-            return state
+            return (state.to_dict())
     else:
         abort(404)
 
@@ -34,7 +34,7 @@ def api_state(state_id):
 @app_views.route('/states/<state_id>', methods=['DELETE'],
                  strict_slashes=False)
 def api_delete_state(state_id):
-    for state in storage.all('State').values():
+    for state in storage.all(State).values():
         if state.id == state_id:
             storage.delete(state)
             storage.save()
@@ -73,6 +73,5 @@ def api_update_state(state_id):
             if key not in ['id', 'created_at', 'updated_at']:
                 setattr(state, key, value)
             storage.save()
-        return make_response(jsonify({state.to_dict()}), 201)
-    else:
+            return make_response(state.to_dict(), 200)
         return make_response(jsonify({'error': 'Not a JSON'}), 400)
