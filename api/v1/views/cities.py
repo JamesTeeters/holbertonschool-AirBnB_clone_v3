@@ -28,7 +28,7 @@ def city_list(state_id):
 
 @app_views.route('/cities/<city.id>', methods=['GET'], strictslashes=False)
 def grab_city(city_id):
-    """ Grab a city """
+    """ Grabs a city object """
     city = storage.get(City, city_id)
     if city is not None:
         return jsonify(city.to_dict())
