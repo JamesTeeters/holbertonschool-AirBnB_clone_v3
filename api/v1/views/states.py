@@ -14,8 +14,7 @@ from models.state import State
 def api_states():
     """return list of all states"""
     all_states = []
-    states_dict = storage.all(State)
-    for state in states_dict.values():
+    for state in storage.all(State).values():
         all_states.append(state.to_dict())
     return jsonify(all_states)
 
@@ -73,5 +72,5 @@ def api_update_state(state_id):
             if key not in ['id', 'created_at', 'updated_at']:
                 setattr(state, key, value)
             storage.save()
-            return make_response(state.to_dict(), 200)
+            return make_response(jsonify(state.to_dict()), 200)
         return make_response(jsonify({'error': 'Not a JSON'}), 400)
