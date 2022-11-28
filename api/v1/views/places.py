@@ -5,10 +5,10 @@ from models import storage
 from models.city import City
 from models.place import Place
 from flask import jsonify, abort, request, make_response
-from sqlalchemy import IntegrityError
+from sqlalchemy.exc import IntegrityError
 
 
-@app_views.route('/cities/<city_id>/places' methods=['GET'],
+@app_views.route('/cities/<city_id>/places', methods=['GET'],
                  strict_slashes=False)
 def get_all_places(city_id):
     """ lista all places in the city"""
@@ -24,7 +24,7 @@ def get_all_places(city_id):
         return_list.append(place.to_dict())
     return jsonify(return_list)
 
-@app_views.route('/places/<place_id>' methods=['GET'],
+@app_views.route('/places/<place_id>', methods=['GET'],
                  strict_slashes=False)
 def get_place(place_id):
     place = storage.all(Place, place_id)
@@ -33,7 +33,7 @@ def get_place(place_id):
     abort(404)
 
 
-@app_views.route('/places/<place_id>' methods=['DELETE'],
+@app_views.route('/places/<place_id>', methods=['DELETE'],
                  strict_slashes=False)
 def delete_place(place_id):
     """delete a place"""
@@ -45,7 +45,7 @@ def delete_place(place_id):
     abort(404)
 
 
-@app_views.route('/cities/<city_id>/places' methods=['POST'])
+@app_views.route('/cities/<city_id>/places', methods=['POST'])
 def Create_Place(city_id):
     """ create a new place"""
     try:
