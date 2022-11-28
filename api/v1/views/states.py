@@ -9,17 +9,18 @@ from models.state import State
 
 
 
-@app_views.route('/api/v1/states', methods=['GET'],
+@app_views.route('/states', methods=['GET'],
                  strict_slashes=False)
 def api_states():
     """return list of all states"""
     all_states = []
-    for state in storage.all("State").values():
-        all_states.append(state)
-    return all_states
+    states_dict = storage.all(State)
+    for state in states_dict.values():
+        all_states.append(state.to_dict())
+    return jsonify(all_states)
 
 
-@app_views.route('/api/v1/states/<state_id>', methods=['GET'],
+@app_views.route('/states/<state_id>', methods=['GET'],
                  strict_slashes=False)
 def api_state(state_id):
     """return state with given id"""
@@ -30,7 +31,7 @@ def api_state(state_id):
         abort(404)
 
 
-@app_views.route('/api/v1/states/<state_id>', methods=['DELETE'],
+@app_views.route('/states/<state_id>', methods=['DELETE'],
                  strict_slashes=False)
 def api_delete_state(state_id):
     for state in storage.all('State').values():
@@ -42,7 +43,7 @@ def api_delete_state(state_id):
         abort(404)
 
 
-@app_views.route('/api/v1/states', methods=['POST'],
+@app_views.route('/states', methods=['POST'],
                  strict_slashes=False)
 def api_create_state():
     """create new state"""
@@ -59,7 +60,7 @@ def api_create_state():
         abort(404)
 
 
-@app_views.route('/api/v1/states/<state_id>', methods=['PUT'],
+@app_views.route('/states/<state_id>', methods=['PUT'],
                  strict_slashes=False)
 def api_update_state(state_id):
     """Update state"""
