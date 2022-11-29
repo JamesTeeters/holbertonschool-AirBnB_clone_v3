@@ -52,7 +52,7 @@ def new_review(place_id):
         req_dict = request.get_json(silent=True)
         if req_dict is not None:
             if 'user_id' in req_dict.keys() and req_dict['user_id'] is not None:
-                if 'text' in req_dict.keys(): and req_dict['text'] is not None
+                if 'text' in req_dict.keys() and req_dict['text'] is not None:
                     req_dict['place_id'] = place_id
                     new_review = Review(**req_dict)
                     new_review.save()
