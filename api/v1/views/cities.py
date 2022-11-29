@@ -14,12 +14,6 @@ def city_list(state_id):
     """ lists all City objects """
     states_dict = storage.all(State)
     return_list = []
-
-    #for state in states_dict.values():
-        #if state.id == state_id:
-            #cities_list = state.cities
-        #if cities_list is None:
-            #abort(404)
     cities_list = storage.get(State, state_id)
     if cities_list is None:
         abort(404)
@@ -48,7 +42,8 @@ def delete_city(city_id):
     abort(404)
 
 
-@app_views.route('/states/<state_id>', methods=['POST'], strict_slashes=False)
+@app_views.route('/states/<state_id>/cities', methods=['POST'],
+                 strict_slashes=False)
 def new_city(state_id):
     """ Create a new city """
     try:
@@ -56,9 +51,9 @@ def new_city(state_id):
         if req_dict is not None:
             if 'name' in req_dict.keys() and req_dict['name'] is not None:
                 req_dict['state_id'] = state_id
-                new = City(**req_dict)
-                new.save()
-                return make_response(jsonify(new.to_dict()), 201)
+                new_city = City(**req_dict)
+                new_city.save()
+                return make_response(jsonify(new_city.to_dict()), 201)
             return make_response(jsonify({'error': 'Missing name'}), 400)
         return make_response(jsonify({'error': 'Not a JSON'}), 400)
     except IntegrityError:
@@ -78,4 +73,4 @@ def update_city(city_id):
                 setattr(city, k, v)
             storage.save()
             return make_response(jsonify(city.to_dict()), 200)
-        return make_response(jsonify({'error': 'Not a JSON'}), 400)
+    return make_response(jsonify({'error': 'Not a JSON'}), 400)

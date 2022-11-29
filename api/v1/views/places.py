@@ -76,4 +76,4 @@ def update_place(place_id):
                 setattr(place, key, value)
             storage.save()
             return make_response(jsonify(place.to_dict()), 200)
-        return make_response(jsonify({'error': 'Not a JSON'}), 400)
+    return make_response(jsonify({'error': 'Not a JSON'}), 400)

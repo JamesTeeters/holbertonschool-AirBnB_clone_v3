@@ -7,8 +7,6 @@ from models import storage
 from models.state import State
 
 
-
-
 @app_views.route('/states', methods=['GET'],
                  strict_slashes=False)
 def api_states():
@@ -73,4 +71,4 @@ def api_update_state(state_id):
                 setattr(state, key, value)
             storage.save()
             return make_response(jsonify(state.to_dict()), 200)
-        return make_response(jsonify({'error': 'Not a JSON'}), 400)
+    return make_response(jsonify({'error': 'Not a JSON'}), 400)
