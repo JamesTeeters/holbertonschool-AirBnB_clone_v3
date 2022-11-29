@@ -49,13 +49,12 @@ def delete_review(review_id):
 def new_review(place_id):
     """ Create a new review """
     try:
-        req_dict = request.get_json(silent=True)
-        if req_dict is not None:
-            if 'user_id' in req_dict.keys()
-            and req_dict['user_id'] is not None:
-                if 'text' in req_dict.keys() and req_dict['text'] is not None:
-                    req_dict['place_id'] = place_id
-                    new_review = Review(**req_dict)
+        r_dict = request.get_json(silent=True)
+        if r_dict is not None:
+            if 'user_id' in r_dict.keys() and r_dict['user_id'] is not None:
+                if 'text' in r_dict.keys() and r_dict['text'] is not None:
+                    r_dict['place_id'] = place_id
+                    new_review = Review(**r_dict)
                     new_review.save()
                     return make_response(jsonify(new_review.to_dict()), 201)
                 return make_response(jsonify({'error': 'Missing text'}), 400)
