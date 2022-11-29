@@ -160,3 +160,7 @@ Jennifer Huang - [Github](https://github.com/jhuang10123) / [Twitter](https://tw
 Second part of Airbnb: Joann Vuong
 ## License
 Public Domain. No copy write protection. 
+
+## Secondary authors of this project
+Sarah McGowan - [Github](https://github.com/GoldLion1011
+James Teeters   - [Github](https://github.com/JamesTeeters)
