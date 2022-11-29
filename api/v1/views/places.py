@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""View for Place"""
+""" view for City objects """
 from api.v1.views import app_views
 from models import storage
 from models.city import City
@@ -10,22 +10,22 @@ from sqlalchemy.exc import IntegrityError
 
 @app_views.route('/cities/<city_id>/places', methods=['GET'],
                  strict_slashes=False)
-def get_all_places(city_id):
-    """ lista all places in the city"""
-    city_dict = storage.all(City)
-    place_list = []
+def place_list(city_id):
+    """ lists all palce objects """
+    states_dict = storage.all(City)
+    return_list = []
 
-    all_cities = storage.get(City, city_id)
-    if all_cities is None:
+    cities_list = storage.get(City, city_id)
+    if cities_list is None:
         abort(404)
-    for place in all_cities.places:
+    for place in cities_list.cities:
         return_list.append(place.to_dict())
-    return jsonify(place_list)
+    return jsonify(return_list)
 
 
-@app_views.route('/places/<place_id>', methods=['GET'],
-                 strict_slashes=False)
-def get_place(place_id):
+@app_views.route('/places/<place_id>', methods=['GET'], strict_slashes=False)
+def grab_place(place_id):
+    """ Grabs a palce object """
     place = storage.get(Place, place_id)
     if place is not None:
         return jsonify(place.to_dict())
@@ -35,7 +35,7 @@ def get_place(place_id):
 @app_views.route('/places/<place_id>', methods=['DELETE'],
                  strict_slashes=False)
 def delete_place(place_id):
-    """delete a place"""
+    """ Delete a place """
     place = storage.get(Place, place_id)
     if place is not None:
         storage.delete(place)
@@ -44,9 +44,10 @@ def delete_place(place_id):
     abort(404)
 
 
-@app_views.route('/cities/<city_id>/places', methods=['POST'])
-def Create_Place(city_id):
-    """ create a new place"""
+@app_views.route('/cities/<city_id>/places', methods=['POST'],
+                 strict_slashes=False)
+def new_place(city_id):
+    """ Create a new place """
     try:
         req_dict = request.get_json(silent=True)
         if req_dict is not None:
@@ -54,7 +55,7 @@ def Create_Place(city_id):
                 req_dict['city_id'] = city_id
                 new_place = Place(**req_dict)
                 new_place.save()
-                return make_response(jsonify(new.to_dict()), 201)
+                return make_response(jsonify(new_place.to_dict()), 201)
             return make_response(jsonify({'error': 'Missing name'}), 400)
         return make_response(jsonify({'error': 'Not a JSON'}), 400)
     except IntegrityError:
@@ -63,7 +64,7 @@ def Create_Place(city_id):
 
 @app_views.route('/places/<place_id>', methods=['PUT'], strict_slashes=False)
 def update_place(place_id):
-    """ Update a place information. """
+    """ Update a place obj """
     req_dict = request.get_json(silent=True)
     if req_dict is not None:
         place = storage.get(Place, place_id)
