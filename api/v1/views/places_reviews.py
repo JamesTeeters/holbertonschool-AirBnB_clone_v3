@@ -10,7 +10,7 @@ from sqlalchemy.exc import IntegrityError
 
 @app_views.route('/places/<place_id>/reviews', methods=['GET'],
                  strict_slashes=False)
-def review_list(city_id):
+def review_list(place_id):
     """ lists all review objects """
     states_dict = storage.all(Place)
     return_list = []
@@ -75,5 +75,5 @@ def update_review(review_id):
                            'created_at', 'updated_at']:
                 setattr(review, key, value)
             storage.save()
-            return make_response(jsonify(reviews.to_dict()), 200)
+            return make_response(jsonify(review.to_dict()), 200)
         return make_response(jsonify({'error': 'Not a JSON'}), 400)
