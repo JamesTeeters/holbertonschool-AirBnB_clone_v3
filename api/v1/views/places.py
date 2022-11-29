@@ -49,13 +49,16 @@ def delete_place(place_id):
 def new_place(city_id):
     """ Create a new place """
     try:
-        req_dict = request.get_json(silent=True)
-        if req_dict is not None:
-            if 'name' in req_dict.keys() and req_dict['name'] is not None:
-                req_dict['city_id'] = city_id
-                new_place = Place(**req_dict)
-                new_place.save()
-                return make_response(jsonify(new_place.to_dict()), 201)
+        r_dict = request.get_json(silent=True)
+        if r_dict is not None:
+            if 'name' in r_dict.keys() and r_dict['name'] is not None:
+                if 'user_id'in r_dict.keys() and r_dict['user_id'] is not None:
+                    r_dict['city_id'] = city_id
+                    new_place = Place(**r_dict)
+                    new_place.save()
+                    return make_response(jsonify(new_place.to_dict()), 201)
+                return make_response(jsonify({'error': 'Missing user_id'}),
+                                     400)
             return make_response(jsonify({'error': 'Missing name'}), 400)
         return make_response(jsonify({'error': 'Not a JSON'}), 400)
     except IntegrityError:
