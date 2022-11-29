@@ -12,7 +12,7 @@ from sqlalchemy.exc import IntegrityError
                  strict_slashes=False)
 def review_list(place_id):
     """ lists all review objects """
-    states_dict = storage.all(Place)
+    places_dict = storage.all(Place)
     return_list = []
 
     places_list = storage.get(Place, place_id)
@@ -51,12 +51,14 @@ def new_review(place_id):
     try:
         req_dict = request.get_json(silent=True)
         if req_dict is not None:
-            if 'name' in req_dict.keys() and req_dict['name'] is not None:
-                req_dict['place_id'] = place_id
-                new_review = Review(**req_dict)
-                new_review.save()
-                return make_response(jsonify(new_review.to_dict()), 201)
-            return make_response(jsonify({'error': 'Missing name'}), 400)
+            if 'user_id' in req_dict.keys() and req_dict['user_id'] is not None:
+                if 'text' in req_dict.keys(): and req_dict['text'] is not None
+                    req_dict['place_id'] = place_id
+                    new_review = Review(**req_dict)
+                    new_review.save()
+                    return make_response(jsonify(new_review.to_dict()), 201)
+                return make_response(jsonify({'error': 'Missing text'}), 400)
+            return make_response(jsonify({'error': 'Missing user_id'}), 400)
         return make_response(jsonify({'error': 'Not a JSON'}), 400)
     except IntegrityError:
         abort(404)

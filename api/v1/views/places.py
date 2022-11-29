@@ -12,7 +12,7 @@ from sqlalchemy.exc import IntegrityError
                  strict_slashes=False)
 def place_list(city_id):
     """ lists all palce objects """
-    states_dict = storage.all(City)
+    cities_dict = storage.all(City)
     return_list = []
 
     cities_list = storage.get(City, city_id)
